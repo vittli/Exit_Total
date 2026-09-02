@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exit-Ticket: Totalreflexion und Fata Morgana</title>
+<style>
+:root{
+  --tinte:#15181C; --grau:#5B636B; --linie:#D6DAE0; --papier:#fff;
+  --strahl:#E08A17; --lot:#8A93A0;
+  --richtig:#25703A; --falsch:#B02D2D; --aktiv:#1F5FA8;
+}
+*{box-sizing:border-box}
+body{margin:0; padding:26px 16px 70px; background:#EEF1F4; color:var(--tinte);
+  font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif; font-size:17px; line-height:1.6}
+main{max-width:780px; margin:0 auto; background:var(--papier); border:1px solid var(--linie); border-radius:6px; padding:32px 30px 40px}
+h1{font-size:1.6rem; margin:0 0 4px; letter-spacing:-.01em}
+h2{font-size:1.1rem; margin:36px 0 8px}
+.meta{font-size:.85rem; color:var(--grau); margin:0}
+.kopf{display:flex; flex-wrap:wrap; gap:12px; margin:20px 0 10px}
+.kopf label{flex:1 1 150px; font-size:.8rem; color:var(--grau)}
+.kopf input{width:100%; margin-top:3px; padding:7px 9px; border:1px solid var(--linie); border-radius:4px; font:inherit; font-size:.95rem}
+.zeit{font-size:.85rem; color:var(--grau); border-left:3px solid var(--linie); padding-left:10px; margin:10px 0 0}
+.auftrag{font-weight:700; margin:0 0 8px}
+
+figure{margin:16px 0; border:1px solid var(--linie); border-radius:6px; padding:12px; background:#FCFDFE}
+figcaption{font-size:.85rem; color:var(--grau); margin-top:8px}
+svg{display:block; width:100%; height:auto}
+
+.bedien{display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:10px}
+.bedien label{font-size:.9rem; color:var(--grau)}
+input[type=range]{flex:1 1 220px; min-width:180px; accent-color:var(--aktiv)}
+.wert{font-variant-numeric:tabular-nums; font-weight:700; min-width:60px}
+.status{margin:8px 0 0; font-weight:600; min-height:1.4em}
+
+.wahl{display:block; padding:9px 11px; margin:6px 0; border:1px solid var(--linie); border-radius:4px; cursor:pointer}
+.wahl:hover{background:#F5F7F9}
+.wahl input{margin-right:9px}
+textarea{width:100%; min-height:110px; padding:10px; font:inherit; font-size:.97rem; border:1px solid #A8B0B8; border-radius:4px}
+select{font:inherit; font-size:.95rem; padding:6px 8px; border:1px solid #A8B0B8; border-radius:4px; background:#fff; max-width:100%}
+.zeile{display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; padding:8px 0; border-bottom:1px dotted var(--linie)}
+.zeile .text{flex:1 1 300px}
+select.ok{border-color:var(--richtig); background:#F3FAF5}
+select.nok{border-color:var(--falsch); background:#FDF4F4}
+.rueck{font-size:.9rem; margin:8px 0 0; min-height:1.3em}
+.rueck.ok{color:var(--richtig)} .rueck.nok{color:var(--falsch)}
+
+button{font:inherit; font-size:.94rem; font-weight:600; padding:9px 16px; border-radius:5px; border:1px solid var(--tinte); background:var(--tinte); color:#fff; cursor:pointer}
+button.leise{background:#fff; color:var(--tinte)}
+button:disabled{opacity:.4; cursor:not-allowed}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.wahl:focus-within,.klickfeld:focus-visible{outline:3px solid var(--aktiv); outline-offset:2px}
+
+.klickfeld{cursor:pointer}
+.klickfeld:hover .rahmen{stroke-opacity:1}
+.rahmen{fill:none; stroke:var(--aktiv); stroke-width:3; stroke-opacity:0}
+.rahmen.treffer{stroke:var(--richtig); stroke-opacity:1}
+.rahmen.fehler{stroke:var(--falsch); stroke-opacity:1}
+
+.leiste{display:flex; flex-wrap:wrap; gap:10px; margin:28px 0 0; padding-top:16px; border-top:2px solid var(--linie)}
+.ergebnis{margin:14px 0 0; font-weight:700}
+.loesung{display:none; margin:12px 0 0; padding:12px 14px; border:1px solid var(--linie); border-radius:5px; background:#F7F9FB}
+.loesung.sichtbar{display:block}
+.ampel{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 14px}
+.ampel label{border:1px solid var(--linie); border-radius:4px; padding:7px 11px; font-size:.92rem; cursor:pointer}
+.ampel input{margin-right:7px}
+footer{max-width:780px; margin:14px auto 0; font-size:.78rem; color:var(--grau); text-align:center}
+
+@media print{
+  body{background:#fff; padding:0; font-size:12pt}
+  main{border:0; padding:0; max-width:none}
+  button,.leiste,.bedien{display:none}
+  .loesung{display:none !important}
+  figure,section{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Exit-Ticket: Totalreflexion und Fata Morgana</h1>
+<p class="meta">NaTech 9, Kapitel 1 Optische Phänomene erkunden</p>
+
+<div class="kopf">
+  <label>Name<input type="text" autocomplete="off"></label>
+  <label>Klasse<input type="text" autocomplete="off"></label>
+  <label>Datum<input type="text" autocomplete="off"></label>
+</div>
+<p class="zeit">Bearbeitungszeit: rund 10 Minuten. Du arbeitest allein und ohne Grundlagenbuch. Was du nicht weisst, lässt du offen und notierst es am Schluss.</p>
+
+<h2>1 Warme und kühle Luft</h2>
+<p class="auftrag">An einem heissen Sommertag ist die Luft direkt über dem Asphalt viel wärmer als die Luft weiter oben. Klicke auf die Luftschicht, die <strong>optisch dünner</strong> ist.</p>
+
+<figure>
+  <svg viewBox="0 0 660 300" role="img" aria-label="Luftschichten über einer heissen Strasse">
+    <defs>
+      <linearGradient id="himmel" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#BBD9F0"/><stop offset="100%" stop-color="#E4F0F8"/>
+      </linearGradient>
+      <linearGradient id="hitze" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FBEBD2"/><stop offset="100%" stop-color="#F6D7A8"/>
+      </linearGradient>
+    </defs>
+    <rect x="0" y="0" width="660" height="160" fill="url(#himmel)"/>
+    <rect x="0" y="160" width="660" height="100" fill="url(#hitze)"/>
+    <rect x="0" y="260" width="660" height="40" fill="#4E545B"/>
+    <line x1="0" y1="280" x2="660" y2="280" stroke="#E8E8E8" stroke-width="4" stroke-dasharray="34 26"/>
+    <circle cx="580" cy="46" r="26" fill="#F3C33B"/>
+
+    <g class="klickfeld" data-name="oben" tabindex="0" role="button" aria-label="kühlere Luft weiter oben">
+      <rect x="8" y="8" width="644" height="144" fill="transparent"/>
+      <rect class="rahmen" x="8" y="8" width="644" height="144" rx="4"/>
+      <text x="24" y="40" font-size="17" fill="#33546E">kühlere Luft, weiter oben</text>
+    </g>
+    <g class="klickfeld" data-name="unten" tabindex="0" role="button" aria-label="heisse Luft direkt über der Strasse">
+      <rect x="8" y="164" width="644" height="92" fill="transparent"/>
+      <rect class="rahmen" x="8" y="164" width="644" height="92" rx="4"/>
+      <text x="24" y="200" font-size="17" fill="#7A5111">heisse Luft, direkt über dem Asphalt</text>
+    </g>
+    <text x="24" y="288" font-size="15" fill="#DDE1E5">Strasse</text>
+  </svg>
+  <figcaption>Je wärmer die Luft, desto weiter liegen ihre Teilchen auseinander.</figcaption>
+</figure>
+<p class="rueck" id="r1"></p>
+
+<h2>2 Zuerst vermuten, dann prüfen</h2>
+<p class="auftrag">Licht vom Himmel läuft schräg nach unten und kommt dabei in immer wärmere, also immer dünnere Luft. Was passiert mit dem Lichtstrahl? Erst nach deiner Wahl kannst du den Regler benutzen.</p>
+<div id="a2">
+  <label class="wahl"><input type="radio" name="a2" value="a">Der Lichtstrahl wird immer steiler und schlägt senkrecht auf der Strasse auf.</label>
+  <label class="wahl"><input type="radio" name="a2" value="b">Der Lichtstrahl wird immer flacher und kann kurz über dem Boden wieder nach oben umgelenkt werden.</label>
+  <label class="wahl"><input type="radio" name="a2" value="c">Der Lichtstrahl bleibt genau gerade, warme Luft ändert nichts.</label>
+  <label class="wahl"><input type="radio" name="a2" value="d">Der Lichtstrahl wird im Boden gespeichert und später wieder abgegeben.</label>
+  <p class="rueck" id="r2"></p>
+</div>
+
+<figure>
+  <svg viewBox="0 0 660 340" role="img" aria-label="Lichtweg über einer heissen Strasse">
+    <rect x="0" y="0" width="660" height="200" fill="url(#himmel)"/>
+    <rect x="0" y="200" width="660" height="90" fill="url(#hitze)"/>
+    <rect x="0" y="290" width="660" height="50" fill="#4E545B"/>
+    <line x1="0" y1="200" x2="660" y2="200" stroke="#C9A468" stroke-width="1" stroke-dasharray="5 6"/>
+    <text x="12" y="30" font-size="15" fill="#33546E">kühlere Luft</text>
+    <text x="12" y="222" font-size="15" fill="#7A5111">warme Luft</text>
+    <text x="12" y="318" font-size="15" fill="#DDE1E5">Strasse</text>
+
+    <!-- Objekt am Himmel -->
+    <circle cx="86" cy="76" r="17" fill="#7FB5E2"/>
+    <text x="46" y="52" font-size="15" fill="#33546E">Stück Himmel</text>
+
+    <!-- scheinbares Bild -->
+    <ellipse id="pfuetze" cx="300" cy="292" rx="52" ry="8" fill="#9FC7E6" opacity="0"/>
+    <line id="sichtlinie" stroke="#5B636B" stroke-width="2" stroke-dasharray="7 6" opacity="0"/>
+    <text id="pfuetzeLabel" font-size="14" fill="#3B5A73" opacity="0">scheinbares Bild</text>
+
+    <!-- Lichtweg -->
+    <polyline id="lichtweg" fill="none" stroke="var(--strahl)" stroke-width="4" stroke-linejoin="round" points=""/>
+    <circle id="lichtPunkt" r="7" fill="#B8590A" opacity="0"/>
+
+    <!-- Auge -->
+    <g id="auge">
+      <ellipse cx="612" cy="196" rx="22" ry="12" fill="#fff" stroke="#3A4149" stroke-width="2"/>
+      <circle cx="612" cy="196" r="6" fill="#3A4149"/>
+      <text x="574" y="172" font-size="15" fill="#3A4149">Auge</text>
+    </g>
+  </svg>
+  <div class="bedien">
+    <label for="regler">Temperaturunterschied zwischen Strasse und Luft</label>
+    <input type="range" id="regler" min="0" max="100" step="1" value="10" disabled>
+    <span class="wert" id="wertAnzeige">klein</span>
+  </div>
+  <div class="bedien">
+    <button type="button" class="leise" id="animBtn" disabled>Lichtweg abspielen</button>
+  </div>
+  <p class="status" id="statusText">Wähle zuerst deine Vermutung oben aus.</p>
+  <figcaption>Der Lichtstrahl kommt vom Himmel und läuft nach unten in immer wärmere Luft.</figcaption>
+</figure>
+
+<h2>3 Warum man eine Pfütze zu sehen glaubt</h2>
+<p class="auftrag">Schiebe den Regler ganz nach rechts und kreuze dann an, warum auf der trockenen Strasse eine Wasserfläche zu sehen scheint.</p>
+<div id="a3">
+  <label class="wahl"><input type="radio" name="a3" value="a">Auf der Strasse hat sich tatsächlich eine dünne Wasserschicht gebildet.</label>
+  <label class="wahl"><input type="radio" name="a3" value="b">Unser Gehirn geht davon aus, dass sich Licht geradlinig ausbreitet. Deshalb sehen wir ein virtuelles Bild des Himmels unten auf der Strasse.</label>
+  <label class="wahl"><input type="radio" name="a3" value="c">Der heisse Asphalt wirkt wie ein Spiegel aus Metall.</label>
+  <label class="wahl"><input type="radio" name="a3" value="d">Das Licht wird von der Strasse verschluckt und in blauer Farbe zurückgegeben.</label>
+  <p class="rueck" id="r3"></p>
+</div>
+
+<h2>4 Zwei Phänomene vergleichen</h2>
+<p class="auftrag">Beide Phänomene beruhen darauf, dass Licht vom optisch dichteren in den optisch dünneren Stoff läuft. Ordne zu.</p>
+<div id="a4">
+  <div class="zeile">
+    <span class="text">Im <strong>Glasfaserkabel</strong> ist der optisch dichtere Stoff …</span>
+    <select data-loesung="das Glas"><option value="">bitte wählen</option><option>das Glas</option><option>die Luft aussen</option></select>
+  </div>
+  <div class="zeile">
+    <span class="text">Bei der <strong>Fata Morgana</strong> ist der optisch dichtere Stoff …</span>
+    <select data-loesung="die kühlere Luft oben"><option value="">bitte wählen</option><option>die kühlere Luft oben</option><option>die heisse Luft über dem Asphalt</option></select>
+  </div>
+  <div class="zeile">
+    <span class="text">Der Unterschied: Im Glasfaserkabel gibt es eine scharfe Grenzfläche. Bei der Fata Morgana …</span>
+    <select data-loesung="ändert sich die Luft allmählich, der Lichtstrahl wird gekrümmt"><option value="">bitte wählen</option><option>ändert sich die Luft allmählich, der Lichtstrahl wird gekrümmt</option><option>gibt es ebenfalls eine scharfe Grenzfläche aus Glas</option></select>
+  </div>
+  <p class="rueck" id="r4"></p>
+</div>
+
+<div class="leiste">
+  <button type="button" id="pruefen">Antworten prüfen</button>
+  <button type="button" class="leise" id="reset">Noch einmal versuchen</button>
+  <button type="button" class="leise" id="drucken">Drucken oder als PDF sichern</button>
+</div>
+<p class="ergebnis" id="ergebnis"></p>
+
+<h2>5 Erklären mit Fachbegriffen</h2>
+<p class="auftrag">Deine Freundin fragt, warum die Strasse im Sommer aus der Ferne nass aussieht, obwohl sie trocken ist. Erkläre es ihr schriftlich. Verwende die Begriffe optisch dünner, Lichtstrahl und virtuelles Bild. Blende die Musterlösung erst ein, wenn du fertig geschrieben hast.</p>
+<textarea placeholder="Schreibe drei bis vier Sätze."></textarea>
+<button type="button" class="leise" id="loesungBtn" style="margin-top:10px">Musterlösung einblenden</button>
+<div class="loesung" id="loesungBox">
+  <p style="margin:0">Über dem heissen Asphalt ist die Luft sehr warm und deshalb optisch dünner als die kühlere Luft weiter oben. Ein Lichtstrahl vom Himmel läuft schräg nach unten in diese dünnere Luft. Dabei wird er immer flacher, bis er kurz über der Strasse wieder nach oben umgelenkt wird und in mein Auge trifft. Weil mein Gehirn davon ausgeht, dass sich Licht geradlinig ausbreitet, sehe ich ein virtuelles Bild des Himmels unten auf der Strasse. Das sieht aus wie eine Wasserfläche.</p>
+  <p style="margin:8px 0 0; font-size:.9rem; color:var(--grau)">Vergleiche: Hast du alle drei Begriffe verwendet? Hast du erklärt, warum das Bild <em>unten</em> erscheint?</p>
+</div>
+
+<h2>6 Selbsteinschätzung</h2>
+<p style="margin-bottom:2px">Ich kann sagen, welche Luftschicht optisch dünner ist und warum.</p>
+<div class="ampel">
+  <label><input type="radio" name="s1">sicher</label><label><input type="radio" name="s1">teilweise</label><label><input type="radio" name="s1">noch unsicher</label>
+</div>
+<p style="margin-bottom:2px">Ich kann den Weg des Lichtstrahls bei einer Fata Morgana beschreiben.</p>
+<div class="ampel">
+  <label><input type="radio" name="s2">sicher</label><label><input type="radio" name="s2">teilweise</label><label><input type="radio" name="s2">noch unsicher</label>
+</div>
+<p style="margin-bottom:2px">Ich kann erklären, warum wir dabei ein virtuelles Bild sehen.</p>
+<div class="ampel">
+  <label><input type="radio" name="s3">sicher</label><label><input type="radio" name="s3">teilweise</label><label><input type="radio" name="s3">noch unsicher</label>
+</div>
+<p style="margin-bottom:4px">Das ist mir noch unklar:</p>
+<textarea placeholder="Eine Frage genügt. Sie wird in der nächsten Lektion aufgenommen."></textarea>
+
+<div class="leiste">
+  <button type="button" class="leise" id="drucken2">Drucken oder als PDF sichern</button>
+</div>
+
+</main>
+<footer>NaTech 9, Kapitel 1 Optische Phänomene erkunden. Eingaben werden nicht gespeichert. Zum Abgeben ausdrucken oder als PDF sichern.</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Aufgabe 1: Luftschicht anklicken ---------- */
+var geloest1 = false, versuche1 = 0;
+var r1 = document.getElementById("r1");
+document.querySelectorAll(".klickfeld").forEach(function(g){
+  function klick(){
+    if(geloest1) return;
+    versuche1++;
+    var rahmen = g.querySelector(".rahmen");
+    document.querySelectorAll(".rahmen").forEach(function(x){ x.classList.remove("fehler"); });
+    if(g.dataset.name === "unten"){
+      rahmen.classList.add("treffer"); geloest1 = true;
+      r1.textContent = "Richtig. Warme Luft ist optisch dünner als kühle Luft.";
+      r1.className = "rueck ok";
+    } else {
+      rahmen.classList.add("fehler");
+      r1.textContent = "Noch nicht. Überlege: In welcher Schicht liegen die Teilchen weiter auseinander?";
+      r1.className = "rueck nok";
+      setTimeout(function(){ rahmen.classList.remove("fehler"); }, 1100);
+    }
+  }
+  g.addEventListener("click", klick);
+  g.addEventListener("keydown", function(e){
+    if(e.key === "Enter" || e.key === " "){ e.preventDefault(); klick(); }
+  });
+});
+
+/* ---------- Aufgabe 2: Lichtweg ---------- */
+var xA = 300, yA = 200, xV = 456, xE = 612, yE = 196, yStrasse = 290;
+var regler = document.getElementById("regler");
+var wertAnzeige = document.getElementById("wertAnzeige");
+var statusText = document.getElementById("statusText");
+var lichtweg = document.getElementById("lichtweg");
+var lichtPunkt = document.getElementById("lichtPunkt");
+var sichtlinie = document.getElementById("sichtlinie");
+var pfuetze = document.getElementById("pfuetze");
+var pfuetzeLabel = document.getElementById("pfuetzeLabel");
+var animBtn = document.getElementById("animBtn");
+var punkte = [], erreichtAuge = false;
+
+function bahn(){
+  var k = parseFloat(regler.value);
+  var tiefe = 112 - 0.92 * k;           /* tiefster Punkt unter der Linie y = 200 */
+  var halb = xV - xA;                    /* 156 */
+  var a = -tiefe / (halb * halb);
+  punkte = [{x:86, y:76}];
+  erreichtAuge = false;
+
+  if(yA + tiefe >= yStrasse){
+    /* Lichtstrahl trifft auf die Strasse */
+    var xTreffer = xV - halb * Math.sqrt((tiefe - (yStrasse - yA)) / tiefe);
+    punkte.push({x:xA, y:yA});
+    for(var x = xA; x <= xTreffer; x += 4){
+      punkte.push({x:x, y:(yA + tiefe) + a * Math.pow(x - xV, 2)});
+    }
+    punkte.push({x:xTreffer, y:yStrasse});
+  } else {
+    punkte.push({x:xA, y:yA});
+    for(var x2 = xA; x2 <= xE; x2 += 4){
+      punkte.push({x:x2, y:(yA + tiefe) + a * Math.pow(x2 - xV, 2)});
+    }
+    punkte.push({x:xE, y:yE});
+    erreichtAuge = true;
+  }
+
+  lichtweg.setAttribute("points", punkte.map(function(p){ return p.x + "," + p.y; }).join(" "));
+
+  if(erreichtAuge){
+    /* Blickrichtung im Auge rueckwaerts verlaengern */
+    var steigung = 2 * a * (xE - xV);           /* negativ: Strahl steigt nach rechts */
+    var dx = (yStrasse - yE) / (-steigung);
+    var xSchein = xE - dx;
+    if(xSchein < 60) xSchein = 60;
+    sichtlinie.setAttribute("x1", xE); sichtlinie.setAttribute("y1", yE);
+    sichtlinie.setAttribute("x2", xSchein); sichtlinie.setAttribute("y2", yStrasse);
+    sichtlinie.setAttribute("opacity", "1");
+    pfuetze.setAttribute("cx", xSchein);
+    pfuetze.setAttribute("opacity", "0.85");
+    pfuetzeLabel.setAttribute("x", xSchein - 48);
+    pfuetzeLabel.setAttribute("y", yStrasse + 24);
+    pfuetzeLabel.setAttribute("opacity", "1");
+    statusText.textContent = "Der Lichtstrahl wird nach oben umgelenkt und trifft ins Auge. Unten erscheint ein virtuelles Bild des Himmels.";
+    statusText.style.color = "var(--richtig)";
+  } else {
+    sichtlinie.setAttribute("opacity", "0");
+    pfuetze.setAttribute("opacity", "0");
+    pfuetzeLabel.setAttribute("opacity", "0");
+    statusText.textContent = "Der Lichtstrahl wird zwar etwas gekrümmt, trifft aber auf die Strasse. Es entsteht keine Luftspiegelung.";
+    statusText.style.color = "var(--grau)";
+  }
+
+  var stufen = ["klein", "mittel", "gross", "sehr gross"];
+  wertAnzeige.textContent = stufen[Math.min(3, Math.floor(k / 26))];
+}
+
+regler.addEventListener("input", function(){ bahn(); stopAnim(); });
+bahn();
+
+document.querySelectorAll('input[name="a2"]').forEach(function(radio){
+  radio.addEventListener("change", function(){
+    regler.disabled = false; animBtn.disabled = false;
+    statusText.textContent = "Der Regler ist jetzt frei. Prüfe deine Vermutung.";
+    statusText.style.color = "var(--aktiv)";
+  });
+});
+
+/* Animation entlang des Lichtwegs */
+var laeuft = false, handle = null, startZeit = 0, dauer = 3600;
+function laengen(){
+  var l = [], g = 0;
+  for(var i=1;i<punkte.length;i++){
+    var d = Math.hypot(punkte[i].x-punkte[i-1].x, punkte[i].y-punkte[i-1].y);
+    l.push(d); g += d;
+  }
+  return {l:l, g:g};
+}
+function setzePunkt(t){
+  var m = laengen(), ziel = t * m.g, s = 0;
+  for(var i=0;i<m.l.length;i++){
+    if(s + m.l[i] >= ziel){
+      var f = m.l[i] ? (ziel - s) / m.l[i] : 0;
+      lichtPunkt.setAttribute("cx", punkte[i].x + f*(punkte[i+1].x-punkte[i].x));
+      lichtPunkt.setAttribute("cy", punkte[i].y + f*(punkte[i+1].y-punkte[i].y));
+      return;
+    }
+    s += m.l[i];
+  }
+}
+function schritt(zeit){
+  if(!startZeit) startZeit = zeit;
+  var t = ((zeit - startZeit) % dauer) / dauer;
+  setzePunkt(t);
+  handle = requestAnimationFrame(schritt);
+}
+function stopAnim(){
+  if(handle){ cancelAnimationFrame(handle); handle = null; }
+  laeuft = false; startZeit = 0;
+  lichtPunkt.setAttribute("opacity", "0");
+  animBtn.textContent = "Lichtweg abspielen";
+}
+animBtn.addEventListener("click", function(){
+  if(laeuft){ stopAnim(); return; }
+  laeuft = true; startZeit = 0;
+  lichtPunkt.setAttribute("opacity", "1");
+  animBtn.textContent = "Anhalten";
+  handle = requestAnimationFrame(schritt);
+});
+
+/* ---------- Auswertung ---------- */
+function pruefen(){
+  var richtig = 0, total = 0;
+
+  total++;
+  var w2 = document.querySelector('input[name="a2"]:checked');
+  var r2 = document.getElementById("r2");
+  if(!w2){ r2.textContent = "Noch nicht beantwortet."; r2.className = "rueck nok"; }
+  else if(w2.value === "b"){ richtig++; r2.textContent = "Richtig vermutet."; r2.className = "rueck ok"; }
+  else { r2.textContent = "Nicht ganz. Schiebe den Regler nach rechts und beobachte den Lichtweg."; r2.className = "rueck nok"; }
+
+  total++;
+  var w3 = document.querySelector('input[name="a3"]:checked');
+  var r3 = document.getElementById("r3");
+  if(!w3){ r3.textContent = "Noch nicht beantwortet."; r3.className = "rueck nok"; }
+  else if(w3.value === "b"){ richtig++; r3.textContent = "Richtig. Wir sehen ein virtuelles Bild, keine echte Wasserfläche."; r3.className = "rueck ok"; }
+  else { r3.textContent = "Noch nicht richtig. Achte auf die gestrichelte Blicklinie in der Grafik."; r3.className = "rueck nok"; }
+
+  var felder = document.querySelectorAll("#a4 select"), ok4 = 0;
+  felder.forEach(function(f){
+    total++;
+    f.classList.remove("ok","nok");
+    if(!f.value){ return; }
+    if(f.value === f.dataset.loesung){ f.classList.add("ok"); richtig++; ok4++; }
+    else { f.classList.add("nok"); }
+  });
+  var r4 = document.getElementById("r4");
+  r4.textContent = ok4 + " von " + felder.length + " richtig.";
+  r4.className = "rueck " + (ok4 === felder.length ? "ok" : "nok");
+
+  var erg = document.getElementById("ergebnis");
+  erg.textContent = "Ergebnis Aufgaben 2 bis 4: " + richtig + " von " + total + " richtig. Aufgabe 1: "
+    + (geloest1 ? "gelöst nach " + versuche1 + " Klick(s)." : "noch offen.");
+  erg.setAttribute("role","status");
+  erg.style.color = (richtig === total && geloest1) ? "var(--richtig)" : "var(--tinte)";
+}
+
+function reset(){
+  document.querySelectorAll('input[type=radio]').forEach(function(r){ r.checked = false; });
+  document.querySelectorAll("#a4 select").forEach(function(s){ s.value = ""; s.classList.remove("ok","nok"); });
+  document.querySelectorAll(".rueck").forEach(function(p){ p.textContent = ""; p.className = "rueck"; });
+  document.querySelectorAll(".rahmen").forEach(function(x){ x.classList.remove("treffer","fehler"); });
+  document.getElementById("ergebnis").textContent = "";
+  geloest1 = false; versuche1 = 0;
+  regler.value = 10; regler.disabled = true; animBtn.disabled = true;
+  stopAnim(); bahn();
+  statusText.textContent = "Wähle zuerst deine Vermutung oben aus.";
+  statusText.style.color = "var(--grau)";
+}
+
+document.getElementById("pruefen").addEventListener("click", pruefen);
+document.getElementById("reset").addEventListener("click", reset);
+document.getElementById("drucken").addEventListener("click", function(){ window.print(); });
+document.getElementById("drucken2").addEventListener("click", function(){ window.print(); });
+
+var lbtn = document.getElementById("loesungBtn");
+lbtn.addEventListener("click", function(){
+  var offen = document.getElementById("loesungBox").classList.toggle("sichtbar");
+  lbtn.textContent = offen ? "Musterlösung ausblenden" : "Musterlösung einblenden";
+});
+})();
+</script>
+</body>
+</html>
